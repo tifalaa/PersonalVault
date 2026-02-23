@@ -14,7 +14,7 @@ function AddNewNote({ onSave }) {
 
   return (
     <div className="max-w-4xl mx-auto p-6"> 
-      <form onSubmit={saveNote} className="flex flex-col gap-4">
+      <form onSubmit={saveNote} className="flex flex-col gap-4 cursor-default">
         <h2 className="text-3xl font-extrabold text-gray-800 mb-2">New note...</h2>
         <textarea 
           value={note} 
@@ -42,13 +42,15 @@ function AddNewNote({ onSave }) {
 function App() {
   const [shownote, setshownote] = useState(false);
   const [allNotes, setAllNotes] = useState([]);
+  const [selectMode, setSelectMode] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   const addNoteToList = (text) => {
     setAllNotes([...allNotes, text]);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-12">
+    <div className="min-h-screen bg-gray-200 pt-12">
       <button 
         onClick={() => setshownote(true)} 
         className="ml-6 px-4 py-2 bg-gray-800 text-white rounded-lg shadow-lg hover:bg-black transition-colors"
@@ -61,14 +63,24 @@ function App() {
       {shownote && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white p-8 rounded-3xl max-w-2xl w-full shadow-2xl relative max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-center gap-4 p-4">
+              <button 
+                onClick={() => setshownote(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-red-500 font-bold text-xl"
+              >
+                ✕
+              </button>
+              <button 
+                className="bg-red-500 rounded-2xl hover:bg-red-600 border-2 border-solid border-red-500 absolute top-4 right-24 text-white font-bold text-xl px-6 py-2" 
+                onClick={() => {
+                  setSelectMode(!selectMode);
+                  setSelectedId(null);
+                }}
+              >
+                {selectMode ? "Cancel" : "Select notes"}
+              </button>
+            </div>
             
-            <button 
-              onClick={() => setshownote(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-red-500 font-bold text-xl"
-            >
-              ✕
-            </button>
-
             <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">My Vault</h2>
             
             <table className="w-full text-left">
@@ -84,8 +96,14 @@ function App() {
                   </tr>
                 ) : (
                   allNotes.map((item, index) => (
-                    <tr key={index}>
-                      <td className="py-4 text-gray-700 leading-relaxed">{item}</td>
+                    <tr 
+                      key={index} 
+                      onClick={() => selectMode && setSelectedId(index)} 
+                      className={`cursor-pointer transition-colors ${selectMode && selectedId === index ? "bg-blue-100" : "bg-white"}`}
+                    >
+                      <td className="py-4 px-4 text-gray-700 leading-relaxed">
+                        {item}
+                      </td>
                     </tr>
                   ))
                 )}
