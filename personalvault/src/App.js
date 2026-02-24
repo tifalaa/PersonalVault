@@ -48,6 +48,12 @@ function App() {
   const addNoteToList = (text) => {
     setAllNotes([...allNotes, text]);
   };
+  const deleteSelectedNote = () =>{
+    if(selectedId == null) return;
+    const updatedNotes = allNotes.filter((_,index) => index !== selectedId)
+    setAllNotes(updatedNotes);
+    setSelectedId(null);
+  }
 
   return (
     <div className="min-h-screen bg-gray-200 pt-12">
@@ -79,6 +85,9 @@ function App() {
               >
                 {selectMode ? "Cancel" : "Select notes"}
               </button>
+              {selectMode && selectedId !== null && (
+                <button onClick={deleteSelectedNote} className="bg-white border-2 border-red-500 text-red-500 rounded-2xl font-bold text-xl px-6 py-2 absolute top-4 left-4 hover:bg-red-50 transition-colors"> Delete Note </button>
+              )}
             </div>
             
             <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">My Vault</h2>
