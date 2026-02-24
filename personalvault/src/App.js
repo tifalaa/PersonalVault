@@ -53,6 +53,7 @@ function App() {
     const updatedNotes = allNotes.filter((_,index) => index !== selectedId)
     setAllNotes(updatedNotes);
     setSelectedId(null);
+    setSelectMode(false);
   }
 
   return (
@@ -83,7 +84,7 @@ function App() {
                   setSelectedId(null);
                 }}
               >
-                {selectMode ? "Cancel" : "Select notes"}
+                {selectMode ? "Cancel" : "Select a note" }
               </button>
               {selectMode && selectedId !== null && (
                 <button onClick={deleteSelectedNote} className="bg-white border-2 border-red-500 text-red-500 rounded-2xl font-bold text-xl px-6 py-2 absolute top-4 left-4 hover:bg-red-50 transition-colors"> Delete Note </button>
