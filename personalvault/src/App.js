@@ -8,7 +8,7 @@ function AddNewNote({ onSave, editData}) {
   const saveNote = (e) => {
     e.preventDefault();
     if (!note.trim()) return alert("Note is empty!");
-
+   
     onSave(note);
     setNote("");
     alert("Saved!");
@@ -96,13 +96,12 @@ function App() {
                   setSelectedId(null);
                 }}
               >
-                {selectMode ? "Cancel" : "Select a note"}
-                {editNote ? "Cancel" : "Select a note"}
+                {selectMode ? "Cancel" : "Select a note"}             
               </button>
               {selectMode && selectedId !== null && (
                 <>
                   <button onClick={deleteSelectedNote} className="bg-white border-2 border-red-500 text-red-500 rounded-2xl font-bold text-xl px-6 py-2 absolute top-4 left-4 hover:bg-red-50 transition-colors"> Delete Note </button>
-                  <button onClick={() => { setEditNote(true); setshownote(false); }} className= "bg-blue-500 border-2 border-blue-500 text-white rounded-2xl font-bold text-xl px-6 py-2 absolute top-4 left-48 hover:bg-blue-100 transition-colors"> Edit Note </button>
+                  <button onClick={() => { setEditNote(true); setshownote(false);setSelectMode(false) }} className= "bg-blue-500 border-2 border-blue-500 text-white rounded-2xl font-bold text-xl px-6 py-2 absolute top-4 left-48 hover:bg-blue-100 transition-colors"> Edit Note </button>
                 </>
               )}
             </div>
